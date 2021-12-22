@@ -1,0 +1,95 @@
+// fluent UI
+.ms-Callout-main::-webkit-scrollbar {
+  width: 10px;
+}
+
+.ms-Callout-main::-webkit-scrollbar-track {
+  background-color: transparent !important;
+}
+
+.ms-Callout-main::-webkit-scrollbar-thumb {
+  background-color: #edebe9;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar,
+.ms-Panel-scrollableContent::-webkit-scrollbar,
+.ag-root ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb,
+.ms-Panel-scrollableContent::-webkit-scrollbar-thumb,
+.ag-root ::-webkit-scrollbar-thumb {
+  background-color: #edebe9;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track,
+.ms-Panel-scrollableContent::-webkit-scrollbar-track,
+.ag-root ::-webkit-scrollbar-track {
+  background-color: transparent !important;
+}
+
+.ms-Toggle-innerContainer button:disabled {
+  // border: 1px solid rgb(200, 198, 196);
+  // background: rgb(255, 255, 255);
+  // & > span {
+  //   background: rgb(200, 198, 196);
+  // }
+  // &[aria-checked='true'] {
+  //   background: rgb(200, 198, 196);
+  //   & > span {
+  //     background: rgb(255, 255, 255);
+  //   }
+  // }
+}
+
+.ms-TextField-fieldGroup,
+.ms-Dropdown-title,
+.ms-ComboBox,
+.ms-Dropdown-caretDownWrapper {
+  height: 28px;
+  line-height: 28px;
+}
+
+.ms-TextField-reveal:hover {
+  height: 26px;
+}
+
+.ms-BasePicker-text .ms-TagItem {
+  background: rgb(243, 242, 241);
+}
+
+.ms-Dialog-main {
+  min-height: auto;
+}
+
+.ms-Toggle {
+  margin-bottom: 0 !important;
+}
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 4px #efefef;
+  border-radius: 2px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #efefef;
+  border-radius: 2px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #acacac;
+}

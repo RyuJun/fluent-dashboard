@@ -1,0 +1,22 @@
+@mixin responsive--mobile {
+  @media (max-width: #{$breakpoint__mobile}) {
+    @content;
+  }
+}
+
+@mixin responsive--tablet {
+  @media (min-width: #{$breakpoint__mobile}) and (max-width: #{$breakpoint__desktop - 1px}) {
+    @content;
+  }
+}
+
+@mixin responsive--desktop {
+  @media (min-width: #{$breakpoint__desktop}) and (max-width: #{$breakpoint__xlg - 1px}) {
+    @content;
+  }
+}
+@mixin responsive--xlg {
+  @media (min-width: #{$breakpoint__xlg}) {
+    @content;
+  }
+}

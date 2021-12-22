@@ -1,0 +1,83 @@
+/** inline-fixed define */
+%inline-fixed {
+  width: 100%;
+  display: inline-table;
+  table-layout: fixed;
+  white-space: nowrap;
+}
+/** plain-grind-wrapper  */
+.plain-grid-wrapper {
+  table {
+    width: 100%;
+    white-space: normal;
+    border-collapse: collapse;
+    thead {
+      tr {
+        @extend %inline-fixed;
+        background-color: #faf9f8;
+        height: 30px;
+        line-height: 100% !important;
+        padding: 0;
+        th {
+          padding: 6px 10px 6px 10px;
+          font-weight: 400;
+          font-size: 12px;
+          text-align: left;
+          border-right: 1px solid #fff;
+          &.plaint-grid-id {
+            width: 30px;
+          }
+        }
+      }
+    }
+    tbody {
+      display: block;
+      overflow-y: overlay;
+      tr {
+        @extend %inline-fixed;
+        height: 30px;
+        line-height: 100% !important;
+        td {
+          padding: 6px 10px 6px 10px;
+          font-size: 12px;
+          font-weight: 400;
+          text-align: left;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          &.plaint-grid-id {
+            width: 50px;
+          }
+        }
+      }
+    }
+  }
+}
+/** scrollbar custom */
+.plain-grid-wrapper ::-webkit-scrollbar {
+  background-color: rgba(173, 172, 172, 0.1);
+  width: 5px;
+}
+.plain-grid-wrapper ::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgba(173, 172, 172, 0.3);
+  &:hover {
+    background-color: #0497f8;
+  }
+}
+div.plain-grid-wrapper.edit {
+  th {
+    font-size: 12px;
+    font-weight: 600 !important;
+    color: #201f1e;
+  }
+  th,
+  td {
+    padding: 0 17px;
+  }
+  tr,
+  thead {
+    line-height: 30px;
+    border-bottom: 1px solid #ececec !important;
+  }
+}

@@ -1,0 +1,12 @@
+.aside-top-wrapper {
+  position: relative;
+  width: 100%;
+  button {
+    margin: 0;
+    height: 36px;
+
+    .active {
+      border-bottom: 2px solid orange;
+    }
+  }
+}

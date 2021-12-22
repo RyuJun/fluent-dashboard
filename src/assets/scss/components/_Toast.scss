@@ -1,0 +1,11 @@
+.toast-wrapper {
+  position: fixed;
+  top: 70px;
+  right: 30px;
+  z-index: 1000100;
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}

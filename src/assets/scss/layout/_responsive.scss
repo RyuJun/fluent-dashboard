@@ -1,0 +1,21 @@
+@include responsive--mobile {
+  .sm\:h-auto {
+    height: auto;
+  }
+}
+@include responsive--tablet {
+  .md\:h-auto {
+    height: auto;
+  }
+}
+@include responsive--desktop {
+  .lg\:h-auto {
+    height: auto;
+  }
+}
+
+@include responsive--xlg {
+  .xlg\:h-auto {
+    height: auto;
+  }
+}

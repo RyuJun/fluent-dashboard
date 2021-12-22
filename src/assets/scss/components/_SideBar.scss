@@ -1,0 +1,152 @@
+.menu {
+  height: calc(100% - 75px);
+  overflow-y: auto;
+  background-color: transparent;
+  padding: 0 9px 0 11px;
+  font-size: 14px;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    white-space: nowrap;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    & > i {
+      position: absolute;
+      right: 0;
+      padding: 8px;
+      justify-content: center;
+      align-items: center;
+      display: none;
+    }
+    &:hover {
+      & > i {
+        display: flex;
+      }
+    }
+  }
+  .subMenu {
+    max-height: 0;
+    overflow: hidden;
+
+    li {
+      padding-left: 30px;
+      div {
+        justify-content: space-between;
+      }
+    }
+  }
+  ul {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    white-space: nowrap;
+    li {
+      position: relative;
+      cursor: pointer;
+      height: 32px;
+      &:hover {
+        background-color: #faf9f8;
+      }
+
+      &.active {
+        background-color: #f3f2f1;
+        font-weight: bold;
+        &::after {
+          content: ' ';
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 2px;
+          background-color: #2b90d9;
+        }
+      }
+      &.open {
+        background-color: #faf9f8;
+        font-weight: normal;
+        &::after {
+          background-color: transparent;
+        }
+
+        & + .subMenu {
+          height: auto;
+          max-height: initial;
+        }
+      }
+      & > div {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        & > i {
+          padding: 8px;
+        }
+
+        & > i[data-icon-name='ChevronUpMed'],
+        & > i[data-icon-name='ChevronDownMed'] {
+          margin-left: auto;
+        }
+        & > .name {
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+
+  &.dark ul {
+    li {
+      &:hover {
+        background-color: #152b3a;
+      }
+      &.active {
+        background-color: #044472;
+        font-weight: bold;
+        &::after {
+          background-color: #ffffff;
+        }
+      }
+      &.open {
+        background-color: #152b3a;
+        font-weight: normal;
+      }
+    }
+  }
+  &.collapsed {
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+    .name {
+      display: none;
+    }
+    ul li > div {
+      justify-content: center;
+    }
+    i[data-icon-name='ChevronUpMed'],
+    i[data-icon-name='ChevronDownMed'] {
+      display: none;
+    }
+    & ul {
+      height: 32px;
+    }
+    &.active {
+      background-color: transparent;
+      &::after {
+        background-color: transparent;
+      }
+    }
+    &.open {
+      background-color: transparent;
+      &::after {
+        background-color: transparent;
+      }
+
+      & + .subMenu {
+        height: auto;
+        max-height: initial;
+      }
+    }
+  }
+}

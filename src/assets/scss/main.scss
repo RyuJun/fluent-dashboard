@@ -1,0 +1,50 @@
+// ------------------------------------------------------------------------------------
+// 디렉토리 구조
+// ------------------------------------------------------------------------------------
+// scss
+//  │ main.scss ( partial 된 파일들 전체를 한곳으로 모아주는 역할을 하는 파일 )
+//  │
+//  └─── utils ( _variable.scss 파일과 같은 프로젝트 공용으로 사용될 헬퍼들이 모여있는 디렉토리  )
+//  │      │    _variable.scss
+//  │      │    _mixin.scss
+//  │      │    ...
+//  │
+//  └─── base ( _reset.scss 파일과 같은 프로젝트의 베이스 파일이 담긴 디렉토리  )
+//  │      │    _common.scss
+//  │      │    _reset.scss
+//  │      │    _typography.scss
+//  │      │    ...
+//  └─── layout ( layout 관련 flex, grid, responsive 등의 파일이 담기는 디렉토리  )
+//         │    _flex.scss
+//         │    _grid.scss
+//         │    _layout.scss
+//         │    _responsive.scss
+//         │    ...
+// ------------------------------------------------------------------------------------
+
+// utils
+@import './utils/variables';
+@import './utils/mixin';
+
+// base
+@import './base/reset';
+@import './base/common';
+@import './base/fluent';
+@import './base/typograpy';
+
+// layout
+@import './layout/grid';
+@import './layout/flex';
+@import './layout/responsive';
+@import './layout/layout';
+
+// components
+@import './components/SideBar';
+@import './components/SideBarTop';
+@import './components/Navi';
+@import './components/FunctionNavigation';
+@import './components/ColumnLayout';
+@import './components/PlainGrid';
+@import './components/Toast';
+@import './components/ChangeViewer';
+// ------------------------------------------------------------------------------------
