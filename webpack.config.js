@@ -56,6 +56,11 @@ const baseConfig = {
         },
       },
     }),
+    new CopyPlugin({
+      patterns: [
+        { from: path.resolve(__dirname, 'public', 'locales'), to: path.resolve(__dirname, 'dist', 'locales') },
+      ],
+    }),
   ],
 };
 

@@ -1,9 +1,8 @@
 {
-  "name": "kui-coke-frontend",
+  "name": "fleunt-dashborad",
   "version": "0.0.0",
-  "description": "New PAS-K GUI Project",
   "main": "index.tsx",
-  "author": "km team",
+  "author": "juno",
   "license": "MIT",
   "scripts": {
     "dev-server": "webpack serve --open --mode development",
@@ -11,7 +10,12 @@
     "dev": "webpack --mode development"
   },
   "dependencies": {
+    "@ajoelp/toast": "^1.1.2",
     "@fluentui/react": "^8.13.1",
+    "axios": "^0.21.1",
+    "i18next": "^20.3.2",
+    "i18next-browser-languagedetector": "^6.1.2",
+    "i18next-http-backend": "^1.2.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-dropzone": "^11.4.2",
@@ -22,6 +26,7 @@
     "recoil": "^0.2.0"
   },
   "devDependencies": {
+    "@fluentui/example-data": "^8.2.3",
     "@hookform/resolvers": "^2.5.2",
     "@types/react": "^17.0.4",
     "@types/react-dom": "^17.0.3",
@@ -37,6 +42,7 @@
     "fork-ts-checker-webpack-plugin": "^6.2.5",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.1",
+    "immer": "^9.0.2",
     "mini-css-extract-plugin": "^1.6.0",
     "node-sass": "^5.0.0",
     "prettier": "^2.2.1",

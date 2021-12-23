@@ -1,4 +1,6 @@
 import './assets/scss/main.scss';
+import './config/axios';
+import './config/i18n';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -17,7 +19,7 @@ ReactDOM.render(
       <HashRouter history={history}>
         <Switch>
           <Route path="/admin" component={Admin} />
-          <Redirect path="*" to="/admin/dashboard/dashboard" />
+          <Redirect path="*" to="/admin/example/skeleton" />
         </Switch>
       </HashRouter>
     </RecoilRoot>

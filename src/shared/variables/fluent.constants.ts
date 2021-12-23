@@ -19,7 +19,7 @@ import {
  */
 
 export const defaultActiveColor = 'rgb(82, 153, 243) !important';
-export const defaultFontStyle = { fontFamily: '"Noto Sans", "Noto Sans KR"', color: '#201F1E' };
+export const defaultFontStyle = { fontFamily: '"Noto Sans", "Noto Sans KR"' };
 export const defaultFontStyleSmall = { ...defaultFontStyle, fontSize: 10 };
 export const defaultFontStyleSmallPlus = { ...defaultFontStyle, fontSize: 11 };
 export const defaultFontStyleMedium = { ...defaultFontStyle, fontSize: 12 };
@@ -33,7 +33,6 @@ export const defaultButtonStyles: Partial<IButtonStyles> = {
     },
   },
 };
-
 export const defaultPivotStyles: Partial<IPivotStyles> = {
   root: {
     marginBottom: 10,
