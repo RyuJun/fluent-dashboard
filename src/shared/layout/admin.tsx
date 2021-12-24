@@ -3,6 +3,10 @@ import { Route, useLocation, useParams, useRouteMatch } from 'react-router-dom';
 import { darkTheme, lightTheme } from 'utils/theme/theme';
 
 import Aside from 'shared/layout/aside';
+import AsideTop from 'shared/layout/aside-top';
+import BreadCrumb from 'shared/layout/breadcrumb';
+import CustomPivot from 'shared/layout/custom-pivot';
+import Navi from 'shared/layout/navi';
 import React from 'react';
 import { ThemeProvider } from '@fluentui/react';
 import { ejectNowMenuData } from 'utils/functions/menu/';
@@ -37,12 +41,12 @@ const Admin = (): React.ReactElement => {
         <div className="wrapper" style={size}>
           {layout === 'vertical' && <Aside />}
           <main>
-            {/* <Navi /> */}
-            {/* {settings.layout === 'horizontal' && <AsideTop />} */}
+            <Navi />
+            {settings.layout === 'horizontal' && <AsideTop />}
             <div className="content custom-scrollbar">
               <div className="page-header-wrapper">
-                {/* {breadCrumbData.length ? <BreadCrumb items={breadCrumbData} /> : undefined}
-                {pivotData.length ? <CustomPivot options={pivotData} /> : undefined} */}
+                {breadCrumbData.length ? <BreadCrumb items={breadCrumbData} /> : undefined}
+                {pivotData.length ? <CustomPivot options={pivotData} /> : undefined}
               </div>
               <div className="page-content-wrapper">
                 <Route exact path={`${String(match.path)}/:type/:page`} render={() => <GetComponentPages />} />

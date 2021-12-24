@@ -53,6 +53,7 @@
       &.active {
         background-color: #f3f2f1;
         font-weight: bold;
+        color: $active__color;
         &::after {
           content: ' ';
           position: absolute;
@@ -60,7 +61,7 @@
           top: 0;
           bottom: 0;
           width: 2px;
-          background-color: #2b90d9;
+          background-color: $active__color;
         }
       }
       &.open {
@@ -99,17 +100,14 @@
   &.dark ul {
     li {
       &:hover {
-        background-color: #152b3a;
+        background-color: $dark__active__bg;
       }
       &.active {
-        background-color: #044472;
+        background-color: $dark__active__bg;
         font-weight: bold;
-        &::after {
-          background-color: #ffffff;
-        }
       }
       &.open {
-        background-color: #152b3a;
+        background-color: $dark__active__bg;
         font-weight: normal;
       }
     }

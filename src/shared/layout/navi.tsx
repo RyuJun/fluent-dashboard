@@ -38,6 +38,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 // import { BookmarkSearch } from 'shared/components/bookmark-search';
 import { Icon } from '@fluentui/react/lib/Icon';
+import { Search } from 'shared/components/search';
 // import { Search } from 'shared/components/search';
 import i18next from 'i18next';
 import { lightTheme } from 'utils/theme/theme';
@@ -310,7 +311,7 @@ const Navi = (): React.ReactElement => {
 
   return (
     <nav style={{ backgroundColor: String(settings.navColor) }}>
-      {/* {searchVisible && <Search setVisible={toggleSearchVisible} />} */}
+      {searchVisible && <Search setVisible={toggleSearchVisible} />}
       <Icon
         iconName="FavoriteStar"
         id={userBookmarkCallout}
@@ -358,7 +359,7 @@ const Navi = (): React.ReactElement => {
                 <Stack.Item className={stackItemContentsStyles.calloutInner} styles={stackItemStyles}>
                   <Text className={stackItemContentsStyles.calloutTitle}>User</Text>
                   <Text className={stackItemContentsStyles.calloutText}>admin ID</Text>
-                  <Text className={stackItemContentsStyles.calloutText}>IP(110,10,12,122)</Text>
+                  <Text className={stackItemContentsStyles.calloutText}>IP(192.168.211.1)</Text>
                   <Text className={stackItemContentsStyles.calloutText}>플렛폼 명 / 모델명</Text>
                   <div className={stackItemContentsStyles.calloutDivider} />
                   <Text className={`icon-with-text ${stackItemContentsStyles.calloutActions}`}>

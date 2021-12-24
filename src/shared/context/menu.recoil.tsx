@@ -17,6 +17,13 @@ export interface IinitialMenu {
 
 const initialMenu: IinitialMenu[] = [
   {
+    name_code: 'example.change-viewer',
+    icon: 'ViewOriginal',
+    active: false,
+    path: '/example/change-viewer',
+    help_path: '/example/change-viewer',
+  },
+  {
     name_code: 'example.skeleton',
     icon: 'ViewDashboard',
     active: false,
