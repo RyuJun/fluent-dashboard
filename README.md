@@ -8,11 +8,10 @@
     </a>
   </p>
   <p align="center">
-  Design beautiful native windows apps using Flutter
+  Microsoft Fluent UI를 활용하여 React기반의 커스텀 Dashboard 구현
   </p>
 </div>
 
-> Microsoft Fluent UI를 활용하여 React기반의 커스텀 Dashboard 구현
 
 [Live demo   : ]()<br>
 [Fluent Component : https://developer.microsoft.com/en-us/fluentui#/controls/web](https://developer.microsoft.com/en-us/fluentui#/controls/web)<br>
