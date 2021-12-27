@@ -1,6 +1,13 @@
 /**
  * interface
  */
+
+export interface IPageSizeOption {
+  min: number;
+  max: number;
+  step: number;
+}
+
 export interface IBindingProps<T> {
   isBinding?: boolean;
   bindedItems?: Array<string | number> | string | number | null;

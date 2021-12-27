@@ -2,10 +2,14 @@ import { PartialTheme, loadTheme } from '@fluentui/react';
 import {
   defaultBreadcrumbStyles,
   defaultButtonStyles,
+  defaultCalloutStyles,
+  defaultDropdownStyles,
   defaultFontStyleLarge,
   defaultFontStyleMedium,
   defaultFontStyleSmall,
   defaultFontStyleSmallPlus,
+  defaultFontStyleXlarge,
+  defaultPanelStyles,
   defaultPivotStyles,
 } from 'shared/variables/fluent.constants';
 
@@ -15,11 +19,11 @@ loadTheme({
     smallPlus: defaultFontStyleSmallPlus,
     medium: defaultFontStyleMedium,
     large: defaultFontStyleLarge,
+    xLarge: defaultFontStyleXlarge,
     // tiny: defaultFontStyle,
     // xSmall: defaultFontStyle,
     // smallPlus: defaultFontStyle,
     // mediumPlus: defaultFontStyle,
-    // xLarge: defaultFontStyle,
     // xLargePlus: defaultFontStyle,
     // xxLarge: defaultFontStyle,
     // xxLargePlus: defaultFontStyle,
@@ -30,6 +34,9 @@ loadTheme({
     DefaultButton: { styles: defaultButtonStyles },
     Pivot: { styles: defaultPivotStyles },
     Breadcrumb: { styles: defaultBreadcrumbStyles },
+    Dropdown: { styles: defaultDropdownStyles },
+    Panel: { styles: defaultPanelStyles },
+    Callout: { styles: defaultCalloutStyles },
   },
 });
 
@@ -68,13 +75,10 @@ export const lightTheme: IcustomPartialTheme = {
     calloutBorderColor: '#3d4a54',
     layoutBorderColor: '#3d4a54',
     functionNavigationTitle: '#f5f7fb',
-    functionNavigationTitleText: 'rgb(32, 31, 30)',
     functionNavigationRightContent: '#ffffff',
     customPoviotTitle: '#FAF9F8',
     customPoviotTitleSelected: '#ffffff',
-    columnLayoutLabel: '#ececec',
     changeViewerTitle: '#f5f7fb',
-    changeViewerBgColor: '#ffffff',
   },
 };
 export const darkTheme: IcustomPartialTheme = {
@@ -115,16 +119,13 @@ export const darkTheme: IcustomPartialTheme = {
     white: '#2b2d34',
   },
   customColorsSet: {
-    searchListColor: '#0C202F',
+    searchListColor: '#373942',
     calloutBorderColor: '#3d4a54',
     layoutBorderColor: '#3d4a54',
-    functionNavigationTitle: 'rgb(21 43 58)',
-    functionNavigationTitleText: 'rgb(255, 255, 255)',
-    functionNavigationRightContent: 'rgb(12, 32, 47)',
+    functionNavigationTitle: '#373942',
+    functionNavigationRightContent: '#373942',
     customPoviotTitle: 'rgb(21, 43, 58)',
     customPoviotTitleSelected: 'rgb(12, 32, 47)',
-    columnLayoutLabel: '#152b3a',
-    changeViewerTitle: 'rgb(21 43 58)',
-    changeViewerBgColor: 'rgb(12, 32, 47)',
+    changeViewerTitle: '#373942',
   },
 };

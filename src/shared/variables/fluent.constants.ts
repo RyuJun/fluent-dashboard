@@ -6,6 +6,7 @@ import {
   IDropdownStyles,
   IFontStyles,
   ILabelStyles,
+  IPanelStyles,
   IPivotStyles,
   IStackProps,
   IStackStyles,
@@ -13,6 +14,8 @@ import {
   IToggleStyles,
   mergeStyleSets,
 } from '@fluentui/react';
+
+import { DEFAULT_COLOR } from 'shared/variables/common.constants';
 
 /**
  * Default style variables -------------------------------
@@ -24,6 +27,7 @@ export const defaultFontStyleSmall = { ...defaultFontStyle, fontSize: 10 };
 export const defaultFontStyleSmallPlus = { ...defaultFontStyle, fontSize: 11 };
 export const defaultFontStyleMedium = { ...defaultFontStyle, fontSize: 12 };
 export const defaultFontStyleLarge = { ...defaultFontStyle, fontSize: 14 };
+export const defaultFontStyleXlarge = { ...defaultFontStyle, fontSize: 16 };
 
 export const defaultButtonStyles: Partial<IButtonStyles> = {
   root: {
@@ -33,6 +37,7 @@ export const defaultButtonStyles: Partial<IButtonStyles> = {
     },
   },
 };
+
 export const defaultPivotStyles: Partial<IPivotStyles> = {
   root: {
     marginBottom: 10,
@@ -84,6 +89,58 @@ export const defaultBreadcrumbStyles: Partial<IBreadcrumbStyles> = {
     padding: '0 5px',
     fontSize: defaultFontStyleSmall.fontSize,
   },
+};
+
+export const defaultDropdownStyles: Partial<IDropdownStyles> = {
+  errorMessage: {
+    color: 'rgb(164, 38, 44)',
+  },
+};
+
+export const defaultPanelStyles: Partial<IPanelStyles> = {
+  commands: {
+    margin: 0,
+    padding: 20,
+    borderBottom: `1px solid ${DEFAULT_COLOR.line}`,
+  },
+  scrollableContent: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  content: {
+    padding: 20,
+    height: '100%',
+    position: 'relative',
+  },
+  main: {
+    boxShadow: 'none',
+  },
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.25)',
+  },
+  closeButton: {
+    right: 0,
+    padding: 0,
+    margin: 0,
+    ['i']: {
+      fontSize: defaultFontStyleXlarge.fontSize,
+    },
+  },
+};
+
+/** Callout 컴포넌트 이슈
+ *  admin에서 page가 lazy loading 으로 불려와지기 전 스타일은 먹지 않는다.
+ *  즉, page 로딩 되기 전 불려오는 컴포넌트, aisde, navi 컴포넌트에서 사용되는 Callout은
+ *  각각 컴포넌트에 style을 선언해 주어야 함,
+ *  그 외 page 내에서 사용되는 Callout 컴포넌트는 아래 'defaultCalloutStyles' 스타일이 공용으로 적용 됨.
+ */
+export const defaultCalloutStyles: Partial<ICalloutContentStyles> = {
+  calloutMain: {
+    border: `1px solid ${DEFAULT_COLOR.line}`,
+    borderRadius: 'none',
+  },
+  root: { boxShadow: 'none' },
 };
 
 /**

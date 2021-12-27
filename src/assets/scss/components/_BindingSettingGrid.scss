@@ -1,0 +1,115 @@
+@import 'ag-grid-community/dist/styles/ag-grid.css',
+  'ag-grid-community/dist/styles/ag-theme-alpine/sass/ag-theme-alpine-mixin';
+
+.ag-theme-alpine-binding-setting {
+  // @include ag-theme-alpine(());
+
+  /* @include ag-theme-alpine 영향으로 font-family 가 달라지는 문제가 있어 폰트 추가 - 차후 확인 필요 */
+  font-family: 'Noto Sans', 'Noto Sans KR';
+
+  .ag-header {
+    background-color: #f6f6f6 !important;
+    border-bottom: 0px !important;
+  }
+
+  &.dark {
+    .ag-header {
+      background-color: #373942 !important;
+    }
+  }
+
+  .ag-header-cell {
+    padding: 0;
+  }
+
+  /* header text align */
+  .ag-header-cell-label .ag-header-cell-text {
+    font-size: 12px;
+    font-weight: 400;
+    padding: 6px 0px 6px 20px;
+  }
+
+  .ag-row {
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    border: 0 !important;
+    max-height: 30px;
+  }
+
+  .ag-cell {
+    border: 1px solid transparent;
+    padding: 0 10px;
+  }
+  .ag-row-selected,
+  .ag-row-hover {
+    background: transparent !important;
+  }
+  .ag-cell-inline-editing {
+    min-height: 30px !important;
+  }
+  &.auto-height {
+    // border: 1px solid #dcdcdc;
+    .ag-header-cell {
+      // border-bottom: 1px solid #dcdcdc;
+      // border-right: 1px solid #dcdcdc;
+    }
+
+    .ag-cell {
+      padding: 0 17px;
+      // border-right: 1px solid #dcdcdc;
+    }
+    .ag-cell-inline-editing {
+      height: auto;
+    }
+    .ag-row {
+      max-height: 100%;
+      // border-bottom: 1px solid #dcdcdc !important;
+      &:last-child() {
+        // border: none !important;
+      }
+      .ag-cell:last-child() {
+        // border: none;
+      }
+    }
+    .ag-body-viewport {
+      min-height: 30px;
+      .ag-header-cell {
+        &:last-child() {
+          // border-right: none !important;
+        }
+      }
+    }
+    .ag-react-container {
+      .ag-row {
+        &:last-child() {
+          // border-bottom: 1px solid #dcdcdc !important;
+        }
+      }
+    }
+    .ag-pinned-left-cols-container {
+      .ag-row {
+        // border-right: 1px solid #dcdcdc !important;
+      }
+    }
+    .ag-pinned-right-header {
+      .ag-header-cell {
+        // border-right: none !important;
+      }
+    }
+    .ag-pinned-right-cols-container {
+      .ag-row {
+        // border-left: 1px solid #dcdcdc !important;
+        & > div {
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+  }
+}
+
+.ag-theme-alpine-binding-setting .ag-root-wrapper {
+  background: transparent !important;
+}

@@ -1,9 +1,42 @@
-import { IDropdownOption } from '@fluentui/react';
+import { IChoiceGroupOption, IDropdownOption } from '@fluentui/react';
+
+import { TFunction } from 'i18next';
+import { IPageSizeOption } from 'shared/types/common.types';
 
 export const PATH = {
   root: '/',
   images: process.env.NODE_ENV === 'production' ? '/assets/images' : '/src/assets/images',
   rootDashboard: '/dashboard/dashboard',
+};
+
+export const DEFAULT_COLOR = {
+  line: '#97979759',
+};
+
+export const DEFAULT_SETTING_CONFIG = {
+  pageSize: <IPageSizeOption>{
+    min: 80,
+    max: 120,
+    step: 10,
+  },
+  initialThemeOptions: <IChoiceGroupOption[]>[
+    { key: 'light', text: 'Light' },
+    { key: 'dark', text: 'Dark' },
+  ],
+  initialLayoutOptions: <IChoiceGroupOption[]>[
+    { key: 'vertical', text: 'Vertical' },
+    { key: 'horizontal', text: 'Horizontal' },
+  ],
+  LanguageOptions: <IDropdownOption[]>[
+    { key: 'ko', text: 'Korean' },
+    { key: 'en', text: 'English' },
+    { key: 'zh', text: 'Chinese' },
+    { key: 'ja', text: 'Japanese' },
+  ],
+  fontOptions: <IDropdownOption[]>[
+    { key: 'noto', text: 'Noto Sans' },
+    { key: 'nanum', text: 'Nanum Gothic' },
+  ],
 };
 
 export const RESPONSIVE = {
@@ -104,6 +137,17 @@ export const MODE_UNIT = [
 export const STATUS_UNIT = [
   { key: 'enable', text: 'enable' },
   { key: 'disable', text: 'disable' },
+];
+
+export const SEC_MIN_UNIT = (t: TFunction): IDropdownOption[] => [
+  { key: 'sec', text: t('common:unit-symbol:second') },
+  { key: 'min', text: t('common:unit-symbol:minute') },
+];
+
+export const SEC_MIN_HOUR_UNIT = (t: TFunction): IDropdownOption[] => [
+  { key: 'sec', text: t('common:unit-symbol:second') },
+  { key: 'min', text: t('common:unit-symbol:minute') },
+  { key: 'hour', text: t('common:unit-symbol:hour') },
 ];
 
 export const SNI_MATCH_UNIT = [
