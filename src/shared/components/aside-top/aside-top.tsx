@@ -10,7 +10,7 @@ import {
 } from '@fluentui/react';
 
 import React from 'react';
-import { RenderCalloutContent } from './aside';
+import { RenderCalloutContent } from 'shared/components/aisde/aside';
 import { menuChange } from 'utils/functions/menu/';
 import { menuState } from 'shared/context/menu.recoil';
 import { useHistory } from 'react-router';

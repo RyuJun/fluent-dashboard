@@ -2,6 +2,7 @@ import * as yup from 'yup';
 
 import { ColumnLayout, ColumnLayoutItem } from 'shared/components/column-layout';
 import { FormProvider, useForm } from 'react-hook-form';
+import { editStackStyles, editTextFieldStyles, viewStackStyles } from 'shared/variables/fluent.constants';
 
 import { ChangeViewer } from 'shared/components/change-viewer';
 import { ControlledTextField } from 'shared/hook-form';
@@ -10,7 +11,7 @@ import { FooterButtonGroup } from 'shared/components/footer';
 import { FuncNavMode } from 'shared/types/common.types';
 import { PageTitle } from 'shared/components/page-title';
 import React from 'react';
-import { editTextFieldStyles } from 'shared/variables/fluent.constants';
+import { Stack } from '@fluentui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 const ChangeViewerExample = (): React.ReactElement => {
@@ -47,14 +48,14 @@ const ChangeViewerExample = (): React.ReactElement => {
         isTitle
         viewRender={
           <ColumnLayout column={2} labelWidth={300}>
-            <ColumnLayoutItem label="label" value={<div style={{ padding: '0 20px' }}>value</div>} />
-            <ColumnLayoutItem label="label" value={<div style={{ padding: '0 20px' }}>value</div>} />
-            <ColumnLayoutItem label="label" value={<div style={{ padding: '0 20px' }}>value</div>} />
-            <ColumnLayoutItem label="label" value={<div style={{ padding: '0 20px' }}>value</div>} />
-            <ColumnLayoutItem label="label" value={<div style={{ padding: '0 20px' }}>value</div>} />
-            <ColumnLayoutItem label="label" value={<div style={{ padding: '0 20px' }}>value</div>} />
-            <ColumnLayoutItem label="label" value={<div style={{ padding: '0 20px' }}>value</div>} />
-            <ColumnLayoutItem label="label" value={<div style={{ padding: '0 20px' }}>value</div>} />
+            <ColumnLayoutItem label="label" value={<Stack styles={viewStackStyles}>value</Stack>} />
+            <ColumnLayoutItem label="label" value={<Stack styles={viewStackStyles}>value</Stack>} />
+            <ColumnLayoutItem label="label" value={<Stack styles={viewStackStyles}>value</Stack>} />
+            <ColumnLayoutItem label="label" value={<Stack styles={viewStackStyles}>value</Stack>} />
+            <ColumnLayoutItem label="label" value={<Stack styles={viewStackStyles}>value</Stack>} />
+            <ColumnLayoutItem label="label" value={<Stack styles={viewStackStyles}>value</Stack>} />
+            <ColumnLayoutItem label="label" value={<Stack styles={viewStackStyles}>value</Stack>} />
+            <ColumnLayoutItem label="label" value={<Stack styles={viewStackStyles}>value</Stack>} />
           </ColumnLayout>
         }
         editRender={
@@ -63,50 +64,49 @@ const ChangeViewerExample = (): React.ReactElement => {
               isContainer
               label="label"
               value={
-                <div style={{ padding: 10, paddingBottom: 0 }}>
+                <Stack styles={editStackStyles}>
                   <ControlledTextField required={true} styles={editTextFieldStyles} control={control} name="test" />
-                </div>
+                </Stack>
               }
             />
             <ColumnLayoutItem
               isContainer
               label="label"
               value={
-                <div style={{ padding: 10, paddingBottom: 0 }}>
+                <Stack styles={editStackStyles}>
                   <ControlledTextField required={true} styles={editTextFieldStyles} control={control} name="test" />
-                </div>
+                </Stack>
               }
             />
             <ColumnLayoutItem
               isContainer
               label="label"
               value={
-                <div style={{ padding: 10, paddingBottom: 0 }}>
+                <Stack styles={editStackStyles}>
                   <ControlledTextField required={true} styles={editTextFieldStyles} control={control} name="test" />
-                </div>
+                </Stack>
               }
             />
             <ColumnLayoutItem
               isContainer
               label="label"
               value={
-                <div style={{ padding: 10, paddingBottom: 0 }}>
+                <Stack styles={editStackStyles}>
                   <ControlledTextField required={true} styles={editTextFieldStyles} control={control} name="test" />
-                </div>
+                </Stack>
               }
             />
             <ColumnLayoutItem
               isContainer
               label="label"
               value={
-                <div style={{ padding: 10, paddingBottom: 0 }}>
+                <Stack styles={editStackStyles}>
                   <ControlledTextField required={true} styles={editTextFieldStyles} control={control} name="test" />
-                </div>
+                </Stack>
               }
             />
           </ColumnLayout>
         }
-        moreEditRender={<div>moreEdit</div>}
         footerRender={
           <FooterButtonGroup defaultValues={item} onSubmit={onSubmit} onCancel={onCancel} onReset={onReset} />
         }

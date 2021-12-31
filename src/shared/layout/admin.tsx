@@ -2,11 +2,11 @@ import { IinitialMenu, menuState } from 'shared/context/menu.recoil';
 import { Route, useLocation, useParams, useRouteMatch } from 'react-router-dom';
 import { darkTheme, lightTheme } from 'utils/theme/theme';
 
-import Aside from 'shared/layout/aside';
-import AsideTop from 'shared/layout/aside-top';
-import BreadCrumb from 'shared/layout/breadcrumb';
-import CustomPivot from 'shared/layout/custom-pivot';
-import Navi from 'shared/layout/navi';
+import Aside from 'shared/components/aisde/aside';
+import AsideTop from 'shared/components/aside-top/aside-top';
+import { BreadCrumb } from 'shared/components/breadcrumb';
+import CustomPivot from 'shared/components/custom-pivot/custom-pivot';
+import Navi from 'shared/components/navi/navi';
 import React from 'react';
 import { ThemeProvider } from '@fluentui/react';
 import { ejectNowMenuData } from 'utils/functions/menu/';

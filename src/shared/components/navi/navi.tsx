@@ -24,6 +24,12 @@ import {
   Text,
   mergeStyleSets,
 } from '@fluentui/react';
+import { DEFAULT_COLOR, DEFAULT_SETTING_CONFIG } from 'shared/variables/common.constants';
+import {
+  defaultFontStyleLarge,
+  defaultFontStyleMedium,
+  defaultFontStyleXlarge,
+} from 'shared/variables/fluent.constants';
 import {
   initialSetting,
   layoutChangeSelector,
@@ -36,21 +42,15 @@ import {
 import { useBoolean, useId } from '@fluentui/react-hooks';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
-// import { BookmarkSearch } from 'shared/components/bookmark-search';
+import { BookmarkSearch } from 'shared/components/bookmark-search';
 import { Icon } from '@fluentui/react/lib/Icon';
 import { Search } from 'shared/components/search';
-// import { Search } from 'shared/components/search';
 import i18next from 'i18next';
 import { lightTheme } from 'utils/theme/theme';
+import { useTimer } from 'shared/hooks/useTimer';
 import { useTranslation } from 'react-i18next';
 
 const getIcon = (iconName: string) => <Icon style={stackItemIconStyles} iconName={iconName} />;
-
-const stackStyles: IStackStyles = {
-  root: {
-    gap: 5,
-  },
-};
 
 const stackItemStyles: IStackItemStyles = {
   root: {
@@ -59,7 +59,7 @@ const stackItemStyles: IStackItemStyles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    fontSize: 16,
+    fontSize: defaultFontStyleXlarge.fontSize,
   },
 };
 
@@ -169,7 +169,7 @@ const footerStyles = mergeStyleSets({
   },
 });
 
-const panerStackStyles: IStackStyles = {
+const panelStackStyles: IStackStyles = {
   root: {
     gap: 30,
     flexDirection: 'column',
@@ -177,29 +177,16 @@ const panerStackStyles: IStackStyles = {
 };
 
 const panelStyles: Partial<IPanelStyles> = {
-  overlay: { background: 'rgba(0,0,0, 0.25)' },
-  main: { boxShadow: 'none' },
   commands: { margin: 0, padding: 0 },
   header: {
-    height: 46,
+    height: 45,
     display: 'flex',
     alignItems: 'center',
-    borderBottom: '1px solid #97979759',
   },
   headerText: {
-    fontSize: 14,
+    fontSize: defaultFontStyleLarge.fontSize,
   },
   content: { padding: '17px 20px' },
-  subComponentStyles: {
-    closeButton: {
-      root: {
-        position: 'absolute',
-        top: 6,
-        right: -11,
-        fontSize: 12,
-      },
-    },
-  },
 };
 
 const choiceGroupStyles: IChoiceGroupStyles = {
@@ -226,35 +213,12 @@ const bookmarkIconStyles: IIconStyles = {
 };
 
 const bookmarkCalloutStytles: Partial<ICalloutContentStyles> = {
-  root: {},
-  container: {},
   calloutMain: {
     borderRadius: 'none',
-    border: '1px solid #97979797',
+    border: `1px solid ${DEFAULT_COLOR.line}`,
   },
 };
 
-const initialThemeOptions: IChoiceGroupOption[] = [
-  { key: 'light', text: 'Light' },
-  { key: 'dark', text: 'Dark' },
-];
-
-const initialLayoutOptions: IChoiceGroupOption[] = [
-  { key: 'vertical', text: 'Vertical' },
-  { key: 'horizontal', text: 'Horizontal' },
-];
-
-const LanguageOptions: IDropdownOption[] = [
-  { key: 'ko', text: 'Korean' },
-  { key: 'en', text: 'English' },
-  { key: 'zh', text: 'Chinese' },
-  { key: 'ja', text: 'Japanese' },
-];
-
-const fontOptions: IDropdownOption[] = [
-  { key: 'noto', text: 'Noto Sans' },
-  { key: 'nanum', text: 'Nanum Gothic' },
-];
 const colorPickerStyles: Partial<IColorPickerStyles> = {
   panel: { padding: 0, marginTop: 5 },
   root: {
@@ -265,6 +229,10 @@ const colorPickerStyles: Partial<IColorPickerStyles> = {
   table: {
     display: 'none',
   },
+};
+
+const stackTimerWrapper: Partial<IStackStyles> = {
+  root: { fontSize: defaultFontStyleMedium.fontSize },
 };
 
 const Navi = (): React.ReactElement => {
@@ -283,6 +251,12 @@ const Navi = (): React.ReactElement => {
   const setSize = useSetRecoilState(sizeChangeSelector);
   const setNavColor = useSetRecoilState(navColorChangeSelector);
   const setReset = useSetRecoilState(resetSelector);
+
+  React.useEffect(() => {
+    const searchKeyUpFunction = (e) => e.keyCode === 119 && toggleSearchVisible();
+    document.addEventListener('keyup', searchKeyUpFunction);
+    return () => document.removeEventListener('keyup', searchKeyUpFunction);
+  }, []);
 
   const _onThemeChange = (ev: React.FormEvent<HTMLInputElement>, option: IChoiceGroupOption): void => {
     setTheme(option.key);
@@ -309,6 +283,9 @@ const Navi = (): React.ReactElement => {
     setReset(initialSetting);
   };
 
+  const handleTimerFinish = () => alert('logout!');
+  const { seconds, minutes, hours, days } = useTimer(5000, handleTimerFinish); // unit secound
+
   return (
     <nav style={{ backgroundColor: String(settings.navColor) }}>
       {searchVisible && <Search setVisible={toggleSearchVisible} />}
@@ -321,15 +298,28 @@ const Navi = (): React.ReactElement => {
           left: settings.layout === 'horizontal' ? 100 : 10,
         }}
       />
+      {bookmarkVisible && (
+        <Callout
+          isBeakVisible={false}
+          styles={bookmarkCalloutStytles}
+          target={`#${userBookmarkCallout}`}
+          onDismiss={toggleBookmarkVisible}
+          setInitialFocus
+        >
+          <BookmarkSearch toggle={toggleBookmarkVisible} />
+        </Callout>
+      )}
       {settings.layout === 'horizontal' && <div className="logo-wrapper">PAS-K</div>}
-      <Stack horizontal disableShrink styles={stackStyles}>
+      <Stack horizontal disableShrink tokens={{ childrenGap: 5 }}>
         <Stack.Item styles={stackItemStyles}>
           <Text className={stackItemContentsStyles.text}>Status:</Text>
           <div className={stackItemContentsStyles.status}>M</div>
         </Stack.Item>
         <Stack.Item styles={stackItemStyles}>
           {getIcon('Timer')}
-          <Text className={stackItemContentsStyles.text}>00:09:59</Text>
+          <Stack styles={stackTimerWrapper}>{`${
+            !Number(days) ? '' : `${Number(days)}${t('common:time-symbol.day')} `
+          }${hours}:${minutes}:${seconds}`}</Stack>
         </Stack.Item>
         <Stack.Item styles={stackItemStyles} onClick={toggleSearchVisible}>
           {getIcon('Search')}
@@ -355,11 +345,11 @@ const Navi = (): React.ReactElement => {
               onDismiss={toggleIsCalloutVisible}
               setInitialFocus
             >
-              <Stack styles={stackStyles} className="user-info-wrapper">
+              <Stack tokens={{ childrenGap: 5 }} className="user-info-wrapper">
                 <Stack.Item className={stackItemContentsStyles.calloutInner} styles={stackItemStyles}>
                   <Text className={stackItemContentsStyles.calloutTitle}>User</Text>
                   <Text className={stackItemContentsStyles.calloutText}>admin ID</Text>
-                  <Text className={stackItemContentsStyles.calloutText}>IP(192.168.211.1)</Text>
+                  <Text className={stackItemContentsStyles.calloutText}>IP(110,10,12,122)</Text>
                   <Text className={stackItemContentsStyles.calloutText}>플렛폼 명 / 모델명</Text>
                   <div className={stackItemContentsStyles.calloutDivider} />
                   <Text className={`icon-with-text ${stackItemContentsStyles.calloutActions}`}>
@@ -385,11 +375,11 @@ const Navi = (): React.ReactElement => {
         styles={panelStyles}
         isLightDismiss
       >
-        <Stack horizontal disableShrink styles={panerStackStyles}>
+        <Stack horizontal disableShrink styles={panelStackStyles}>
           <Stack.Item>
             <ChoiceGroup
               selectedKey={settings.theme}
-              options={initialThemeOptions}
+              options={DEFAULT_SETTING_CONFIG.initialThemeOptions}
               styles={choiceGroupStyles}
               onChange={_onThemeChange}
               label="Skin"
@@ -398,7 +388,7 @@ const Navi = (): React.ReactElement => {
           <Stack.Item>
             <ChoiceGroup
               selectedKey={String(settings.layout)}
-              options={initialLayoutOptions}
+              options={DEFAULT_SETTING_CONFIG.initialLayoutOptions}
               styles={choiceGroupStyles}
               onChange={_onMenuLayoutChange}
               label="Menu Layout"
@@ -409,19 +399,24 @@ const Navi = (): React.ReactElement => {
               placeholder="Select an option"
               selectedKey={i18next.language}
               label="Language"
-              options={LanguageOptions}
+              options={DEFAULT_SETTING_CONFIG.LanguageOptions}
               onChange={_onLanguageChange}
             />
           </Stack.Item>
           <Stack.Item>
-            <Dropdown placeholder="Select an option" selectedKey={settings.font} label="Font" options={fontOptions} />
+            <Dropdown
+              placeholder="Select an option"
+              selectedKey={settings.font}
+              label="Font"
+              options={DEFAULT_SETTING_CONFIG.fontOptions}
+            />
           </Stack.Item>
           <Stack.Item>
             <Slider
               label="Page Size"
-              min={80}
-              max={120}
-              step={10}
+              min={DEFAULT_SETTING_CONFIG.pageSize.min}
+              max={DEFAULT_SETTING_CONFIG.pageSize.max}
+              step={DEFAULT_SETTING_CONFIG.pageSize.step}
               value={settings.size}
               styles={defaultSliderStyles}
               showValue={false}

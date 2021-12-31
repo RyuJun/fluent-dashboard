@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 
-import { Callout, DirectionalHint, loadTheme } from '@fluentui/react';
+import { Callout, DirectionalHint } from '@fluentui/react';
+import { ISearchCompProps, ISearchHelpDataProps, ISearchHelpPageProps } from './search.types';
 import { MAX_RECENT_SEARCH_COUNT, calloutStyles, searchBoxStyles, searchListStyles } from './search.constants';
 
 import { AutoComplete } from 'utils/functions/auto-complete';
-import { ISearchCompProps } from './search.types';
 import { Icon } from '@fluentui/react/lib/Icon';
-import { RenderCalloutContent } from 'shared/layout/aside';
+import { RenderCalloutContent } from 'shared/components/aisde/aside';
 import { SearchBox } from '@fluentui/react/lib/SearchBox';
 import deepCopy from 'utils/functions/deep-copy';
 import { menuState } from 'shared/context/menu.recoil';
@@ -18,14 +18,15 @@ import { useRecoilValue } from 'recoil';
 import { useTranslation } from 'react-i18next';
 
 export const Search = ({ setVisible }: ISearchCompProps): React.ReactElement => {
-  const { t } = useTranslation(['help', 'menu', 'common'], { useSuspense: false });
+  const { t } = useTranslation(['help', 'menu', 'common']);
   const searchWrapperRef = React.useRef(null);
+  const scrollBarRef = React.useRef(null);
   const searchRef = React.useRef(null);
   const menuRecoil = useRecoilValue(menuState);
   const history = useHistory();
 
-  const [searchPageData, setSearchPageData] = React.useState([]);
-  const [searchHelpData, setSearchHelpData] = React.useState([]);
+  const [searchPageData, setSearchPageData] = React.useState<ISearchHelpPageProps[]>([]);
+  const [searchHelpData, setSearchHelpData] = React.useState<ISearchHelpDataProps[]>([]);
   const [inputSearchPageList, setInputSearchPageList] = React.useState([]);
   const [inputSearchHelpList, setInputSearchHelpList] = React.useState([]);
   const [inputSearchRecentList, setInputSearchRecentList] = React.useState([]);
@@ -43,13 +44,14 @@ export const Search = ({ setVisible }: ISearchCompProps): React.ReactElement => 
     const recentStorage = JSON.parse(localStorage.getItem('recent'));
     if (!recentStorage) localStorage.setItem('recent', JSON.stringify({ list: [] }));
     setInputSearchRecentList(recentStorage ? recentStorage.list : []);
-    const searchData = [];
-    const helpData = [];
+    const pageData: ISearchHelpPageProps[] = [];
+    const helpData: ISearchHelpDataProps[] = [];
+
     menuRecoil.forEach((firstDepth) => {
       firstDepth.help_path &&
         helpData.push({ name: t(`help:${firstDepth.name_code}`), help_path: firstDepth.help_path });
       if (!firstDepth.views) {
-        searchData.push({
+        pageData.push({
           name: t(`menu:${firstDepth.name_code}`),
           name_code: firstDepth.name_code,
           path: firstDepth.path,
@@ -61,9 +63,9 @@ export const Search = ({ setVisible }: ISearchCompProps): React.ReactElement => 
           secondDeps.help_path &&
             helpData.push({ name: t(`help:${secondDeps.name_code}`), help_path: secondDeps.help_path });
           if (!secondDeps.tabs) {
-            searchData.push({
+            pageData.push({
               name: t(`menu:${secondDeps.name_code}`),
-              position: `${t(`menu:${firstDepth.name_code}`)} >`,
+              position: [firstDepth.name_code],
               name_code: secondDeps.name_code,
               path: secondDeps.path,
               help_path: secondDeps.help_path,
@@ -71,9 +73,9 @@ export const Search = ({ setVisible }: ISearchCompProps): React.ReactElement => 
             });
           } else {
             secondDeps.tabs.forEach((tab) => {
-              searchData.push({
+              pageData.push({
                 name: t(`menu:${tab.name_code}`),
-                position: `${t(`menu:${firstDepth.name_code}`)} > ${t(`menu:${secondDeps.name_code}`)} >`,
+                position: [firstDepth.name_code, secondDeps.name_code],
                 name_code: tab.name_code,
                 path: tab.path,
               });
@@ -82,10 +84,62 @@ export const Search = ({ setVisible }: ISearchCompProps): React.ReactElement => 
         });
       }
     });
+    setSearchPageData(pageData);
     setSearchHelpData(helpData);
-    setSearchPageData(searchData);
+    searchRef.current.querySelector('input').focus();
   }, []);
 
+  const handleSearchKeyUp = (e) => {
+    return;
+    const searchElements = searchRef.current.nextSibling.children;
+    const searchList = [];
+    Array.from(searchElements).forEach((element: HTMLBaseElement) => {
+      element.tagName === 'UL' && Array.from(element.children).forEach((item) => searchList.push(item));
+    });
+    switch (e.keyCode) {
+      case 38: {
+        // up
+        const index = searchList.findIndex((item) => item.classList.contains('active'));
+        if (index !== 0) {
+          searchList[index].classList.remove('active');
+          searchList[index - 1].classList.add('active');
+          searchList[index - 1].scrollIntoView();
+        } else {
+          scrollBarRef.current.scrollTop = 0;
+        }
+        break;
+      }
+      case 40: {
+        // down
+        const index = searchList.findIndex((item) => item.classList.contains('active'));
+        if (searchList.length - 1 !== index) {
+          searchList[index].classList.remove('active');
+          searchList[index + 1].classList.add('active');
+          searchList[index + 1].scrollIntoView();
+        }
+        break;
+      }
+      case 13: {
+        // enter
+        const index = searchList.findIndex((item) => item.classList.contains('active'));
+        const nameCode = searchList[index].getAttribute('data-name-code');
+        if (nameCode) {
+          const pick = inputSearchPageList.filter((page) => page.name_code === nameCode)[0];
+          handleOnClickList(pick, false);
+        } else {
+          clearSearchInput();
+          history.push(`/admin${String(searchList[index].getAttribute('data-path'))}`);
+        }
+        break;
+      }
+      case 27: // esc
+        break;
+      case 119: // f8
+        break;
+      default:
+        return null;
+    }
+  };
   const clearSearchInput = () => {
     setInputValue('');
     setVisible(false);
@@ -120,19 +174,9 @@ export const Search = ({ setVisible }: ISearchCompProps): React.ReactElement => 
     clearSearchInput();
     history.push(`/admin${String(pickMenu.path)}`);
   };
+
   return (
-    <div
-      ref={searchWrapperRef}
-      style={{
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        zIndex: 1,
-        background: 'inherit',
-      }}
-    >
+    <div ref={searchWrapperRef} className={`${searchListStyles.searchWrapper}`}>
       <SearchBox
         styles={searchBoxStyles}
         placeholder="Search"
@@ -153,43 +197,56 @@ export const Search = ({ setVisible }: ISearchCompProps): React.ReactElement => 
           );
 
           setInputValue(newValue);
+
+          if (searchPageList.length) {
+            searchPageList[0].active = true;
+          } else {
+            if (searchHelpList.length) {
+              searchHelpList[0].active = true;
+            }
+          }
+
           setInputSearchPageList(searchPageList);
           setInputSearchHelpList(searchHelpList);
         }}
         onClear={() => setVisible(false)}
         onEscape={() => setVisible(false)}
+        onKeyUp={handleSearchKeyUp}
       />
       <div
-        style={{
-          background: theme ? theme.customColorsSet.searchListColor : 'white',
-          maxHeight: 500,
-          zIndex: 1,
-          overflowY: 'auto',
-          boxShadow: '0px 1.2px 3.6px rgba(0, 0, 0, 0.1), 0px 6.4px 14.4px rgba(0, 0, 0, 0.13)',
-        }}
-        className="custom-scrollbar"
+        style={{ background: theme.customColorsSet.searchListColor }}
+        ref={scrollBarRef}
+        className={`${searchListStyles.searchScrollWrapper} custom-scrollbar`}
       >
-        <ul>
-          <li className={searchListStyles.searchTitle}>{t('common:page')}</li>
-          {inputSearchPageList.length ? (
-            inputSearchPageList.map((item, i) => {
+        <div className={searchListStyles.searchTitle}>{t('common:page')}</div>
+        {inputSearchPageList.length ? (
+          <ul>
+            {inputSearchPageList.map((item, i) => {
               return (
-                <li key={`${String(item.name_code)}_${i}`} className={searchListStyles.searchListWrapper}>
+                <li
+                  key={`${String(item.name_code)}_${i}`}
+                  className={`${String(theme.config.theme)} ${searchListStyles.searchListWrapper} ${
+                    i === 0 ? 'active' : ''
+                  }`}
+                  onClick={() => handleOnClickList(item, false)}
+                  data-path={item.path}
+                  data-name-code={item.name_code}
+                >
                   <div className={searchListStyles.searchListLeft}>
                     <Icon iconName="Search" />
-                    <span style={{ opacity: 0.6 }}>{item.position}</span>
+                    <span style={{ opacity: 0.6 }}>
+                      {item.position && item.position.map((posi) => `${t(`menu:${String(posi)}`)} > `)}
+                    </span>
                   </div>
                   <div className={searchListStyles.searchListRight}>
-                    <div
-                      dangerouslySetInnerHTML={{ __html: item.name }}
-                      onClick={() => handleOnClickList(item, false)}
-                    />
+                    <div dangerouslySetInnerHTML={{ __html: item.name }} />
                     {item.help_path && (
                       <Icon
                         id={`${String(item.name_code.replace('.', ''))}_search`}
                         iconName="Info"
-                        style={{ marginTop: 3 }}
-                        onClick={() => {
+                        style={{ marginTop: 2 }}
+                        onClick={(e) => {
+                          e.stopPropagation();
                           setIsCalloutVisible(true);
                           setCalloutTarget({
                             id: `${String(item.name_code.replace('.', ''))}_search`,
@@ -201,49 +258,61 @@ export const Search = ({ setVisible }: ISearchCompProps): React.ReactElement => 
                   </div>
                 </li>
               );
-            })
-          ) : (
-            <>
-              {inputValue.length ? (
-                <li className={searchListStyles.searchListWrapper}>
-                  {t('common:no-search-result', { value: inputValue })}
-                </li>
-              ) : null}
-            </>
-          )}
-        </ul>
-        <ul>
-          <li className={searchListStyles.searchTitle}>{t('common:help')}</li>
-          {inputSearchHelpList.length ? (
-            inputSearchHelpList.map((item, i) => {
+            })}
+          </ul>
+        ) : (
+          <>
+            {inputValue.length ? (
+              <div className={searchListStyles.searchListWrapper}>
+                {t('common:no-search-result', { value: inputValue })}
+              </div>
+            ) : null}
+          </>
+        )}
+        <div className={searchListStyles.searchTitle}>{t('common:help')}</div>
+        {inputSearchHelpList.length ? (
+          <ul>
+            {inputSearchHelpList.map((item, i) => {
               return (
-                <li key={`${String(item.name_code)}_${i}`} className={searchListStyles.searchListWrapper}>
+                <li
+                  key={`${String(item.name_code)}_${i}`}
+                  className={`${String(theme.config.theme)} ${searchListStyles.searchListWrapper} ${
+                    !inputSearchPageList.length && i === 0 ? 'active' : ''
+                  }`}
+                  data-path={item.help_path}
+                >
                   <div className={searchListStyles.searchListLeft}>
                     <Icon iconName="Info" />
                     <div dangerouslySetInnerHTML={{ __html: item.name }} />
                   </div>
                 </li>
               );
-            })
-          ) : (
-            <>
-              {inputValue.length ? (
-                <li className={searchListStyles.searchListWrapper}>
-                  {t('common:no-search-result', { value: inputValue })}
-                </li>
-              ) : null}
-            </>
-          )}
-        </ul>
-        <ul>
-          <li className={searchListStyles.searchTitle}>{t('common:recent')}</li>
-          {inputSearchRecentList.length ? (
-            inputSearchRecentList.map((item, i) => {
+            })}
+          </ul>
+        ) : (
+          <>
+            {inputValue.length ? (
+              <div className={searchListStyles.searchListWrapper}>
+                {t('common:no-search-result', { value: inputValue })}
+              </div>
+            ) : null}
+          </>
+        )}
+
+        <div className={searchListStyles.searchTitle}>{t('common:recent')}</div>
+        {inputSearchRecentList.length ? (
+          <>
+            {inputSearchRecentList.map((item, i) => {
               return (
-                <li key={`${String(item.name_code)}_${i}`} className={searchListStyles.searchListWrapper}>
+                <div
+                  key={`${String(item.name_code)}_${i}`}
+                  className={`${String(theme.config.theme)} ${searchListStyles.searchListWrapper}`}
+                >
                   <div className={searchListStyles.searchListLeft}>
                     <Icon iconName="Recent" />
-                    <span style={{ opacity: 0.6 }}>{item.position}</span>
+                    <span style={{ opacity: 0.6 }}>
+                      {item.position.map((posi) => `${t(`menu:${String(posi)}`)} > `)}
+                    </span>
                   </div>
                   <div className={searchListStyles.searchListRight}>
                     <div
@@ -251,13 +320,13 @@ export const Search = ({ setVisible }: ISearchCompProps): React.ReactElement => 
                       onClick={() => handleOnClickList(item, true)}
                     />
                   </div>
-                </li>
+                </div>
               );
-            })
-          ) : (
-            <li className={searchListStyles.searchListWrapper}>{t('common:no-recent-search-history')}</li>
-          )}
-        </ul>
+            })}
+          </>
+        ) : (
+          <div className={searchListStyles.searchListWrapper}>{t('common:no-recent-search-history')}</div>
+        )}
       </div>
       {isCalloutVisible && (
         <Callout

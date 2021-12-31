@@ -19,7 +19,7 @@ ReactDOM.render(
       <HashRouter history={history}>
         <Switch>
           <Route path="/admin" component={Admin} />
-          <Redirect path="*" to="/admin/example/skeleton" />
+          <Redirect path="*" to="/admin/example/change-viewer" />
         </Switch>
       </HashRouter>
     </RecoilRoot>

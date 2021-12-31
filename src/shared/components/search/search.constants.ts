@@ -1,19 +1,23 @@
 import { ICalloutContentStyles, ISearchBoxStyles, mergeStyleSets } from '@fluentui/react';
 
-import { ISearchProps } from './search.types';
-
 export const MAX_RECENT_SEARCH_COUNT = 5;
 
-export const searchHelpData: ISearchProps[] = [
-  {
-    name: '포트',
-    en_name: 'Port',
-    name_code: '포트',
-    path: '/dashboard/Dashboard',
-  },
-];
-
 export const searchListStyles = mergeStyleSets({
+  searchWrapper: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    zIndex: 1,
+    background: 'inherit',
+  },
+  searchScrollWrapper: {
+    maxHeight: 500,
+    zIndex: 1,
+    overflowY: 'auto',
+    boxShadow: '0px 1.2px 3.6px rgba(0, 0, 0, 0.1), 0px 6.4px 14.4px rgba(0, 0, 0, 0.13)',
+  },
   searchTitle: {
     display: 'flex',
     alignItems: 'center',
@@ -31,8 +35,11 @@ export const searchListStyles = mergeStyleSets({
     padding: '0 12px',
     cursor: 'pointer',
     fontSize: 12,
-    ':hover': {
-      background: '#F3F2F1',
+    '&.light:hover, &.active.right': {
+      background: '#f6f6f6',
+    },
+    '&.dark:hover, &.active.dark': {
+      background: 'rgb(43, 45, 52)',
     },
   },
   searchListLeft: {

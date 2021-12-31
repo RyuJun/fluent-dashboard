@@ -79,6 +79,7 @@ export const lightTheme: IcustomPartialTheme = {
     customPoviotTitle: '#FAF9F8',
     customPoviotTitleSelected: '#ffffff',
     changeViewerTitle: '#f5f7fb',
+    changeViewerBgColor: '#ffffff',
   },
 };
 export const darkTheme: IcustomPartialTheme = {
@@ -127,5 +128,6 @@ export const darkTheme: IcustomPartialTheme = {
     customPoviotTitle: 'rgb(21, 43, 58)',
     customPoviotTitleSelected: 'rgb(12, 32, 47)',
     changeViewerTitle: '#373942',
+    changeViewerBgColor: 'rgb(43, 45, 52)',
   },
 };

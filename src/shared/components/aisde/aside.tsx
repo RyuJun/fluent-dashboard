@@ -1,13 +1,21 @@
 import * as React from 'react';
 
-import { AnimationStyles, Callout, Text } from '@fluentui/react';
-import { DirectionalHint, ICalloutContentStyles, mergeStyleSets } from '@fluentui/react';
+import {
+  AnimationStyles,
+  Callout,
+  DirectionalHint,
+  ICalloutContentStyles,
+  Text,
+  mergeStyleSets,
+} from '@fluentui/react';
+import { IBookmark, bookmarkChangeSelector, bookmarkState } from 'shared/context/bookmark.recoil';
 import { ITabs, IinitialMenu, menuState } from 'shared/context/menu.recoil';
 import { Link, useLocation, useRouteMatch } from 'react-router-dom';
 import { SideBarWrapper, SideItemMenu, SideSubMenu } from 'shared/components/sidebar';
 import { ejectNowMenuData, menuChange } from 'utils/functions/menu';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
+import { DEFAULT_COLOR } from 'shared/variables/common.constants';
 import { Icon } from '@fluentui/react/lib/Icon';
 import { settingsState } from 'shared/context/settings.recoil';
 import { useHistory } from 'react-router';
@@ -72,13 +80,33 @@ const customCalloutStyles = mergeStyleSets({
 export const RenderCalloutContent: React.FC<IHelpCalloutContent> = ({ selectTarget }) => {
   const { t } = useTranslation(['common', 'menu', 'help'], { useSuspense: false });
   const history = useHistory();
+  const bookmarkRecoil = useRecoilValue(bookmarkState) as IBookmark;
+  const setBookmarkRecoil = useSetRecoilState(bookmarkChangeSelector);
 
+  const isBookmarkStatus = bookmarkRecoil.list.filter((item) => item.name_code === selectTarget.name_code);
+
+  const handleAddBookmark = () => setBookmarkRecoil(selectTarget);
   const handleOnSubPathMove = (path: string) => history.push(`/admin${path}`) as void;
 
   return (
     <div className={customCalloutStyles.customCalloutWrapper}>
       <div className={customCalloutStyles.customCalloutInner}>
-        <div className={customCalloutStyles.customCalloutTitle}>{t(`menu:${selectTarget.name_code}`)}</div>
+        <div className={customCalloutStyles.customCalloutTitle}>
+          {t(`menu:${selectTarget.name_code}`)}
+          {isBookmarkStatus.length ? (
+            <Icon
+              iconName="FavoriteStarFill"
+              className={customCalloutStyles.customCalloutIconStartActive}
+              onClick={handleAddBookmark}
+            />
+          ) : (
+            <Icon
+              iconName="FavoriteStar"
+              className={customCalloutStyles.customCalloutIconStart}
+              onClick={handleAddBookmark}
+            />
+          )}
+        </div>
         <div className={customCalloutStyles.customCalloutContent}>
           {/* {isHelpStatus[`${i18n.language === 'ko' ? '' : `${i18n.language}_`}content`]} */}
           {selectTarget.help_path && String(t(`help:${selectTarget.name_code}`))}
@@ -113,14 +141,14 @@ export const RenderCalloutContent: React.FC<IHelpCalloutContent> = ({ selectTarg
 
 const calloutStyles: Partial<ICalloutContentStyles> = {
   calloutMain: {
-    border: '1px solid #97979759',
+    border: `1px solid ${DEFAULT_COLOR.line}`,
     borderRadius: 'none',
   },
   root: { paddingLeft: 24, boxShadow: 'none' },
 };
 
 const Aside = (): React.ReactElement => {
-  const { t, i18n } = useTranslation(['menu', 'common']);
+  const { t } = useTranslation(['menu']);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [width, height, device] = useWindowSize();
   const match = useRouteMatch();
@@ -155,6 +183,7 @@ const Aside = (): React.ReactElement => {
 
   return (
     <aside
+      className={settings.theme}
       onMouseEnter={() => {
         if (collapsedFixed) {
           setCollapsed(false);
@@ -176,7 +205,7 @@ const Aside = (): React.ReactElement => {
       >
         {!collapsed && (
           <>
-            <Text>Fluent Dashboard</Text>
+            <Text>Flunet Dashboard</Text>
             <Icon
               iconName={collapsedFixed ? 'Unpin' : 'Pin'}
               onClick={() => {
